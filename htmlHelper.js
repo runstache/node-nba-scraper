@@ -21,7 +21,7 @@ function getAttributeValue(htmlString, selector, attribute) {
   const $ = cheerio.load(htmlString, {
     xmlMode: true
   });
-  var value = $(selector).attr(attribute);
+  var value = $(selector).attr(attribute);    
   return value;
 }
 
