@@ -1,5 +1,4 @@
 const client = require('axios');
-const { html } = require('cheerio');
 const cheerio = require('cheerio');
 const htmlHelper = require('./htmlHelper.js');
 
