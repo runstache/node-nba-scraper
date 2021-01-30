@@ -1,6 +1,7 @@
 const boxscoreHelper = require('./boxscoreHelper.js');
 const scoreboadHelper = require('./scoreboardHelper.js');
 const teamHelper = require('./teamHelper.js');
+const playerHelper = require('./playerHelper.js');
 
 const gameDate = process.argv[2];
 const outputDirectory = '/mnt/c/data/json/nba/';
@@ -25,14 +26,27 @@ async function buildItem(item) {
   gamestats.game = item;
 
   boxscoreHelper.loadBoxScore(item.id).then((result) => {
-    gamestats.awayPlayers = boxscoreHelper.getAwayPlayerStats(result);
-    gamestats.homePlayers = boxscoreHelper.getHomePlayerStats(result);
-  }).catch((err) => console.log('FAILED TO BUILD BOXSCORE: ' + err))
-  .then(() => teamHelper.loadTeamStats(item.id).then((teamHtml) => {    
-    gamestats.teams = teamHelper.buildTeamTotals(teamHtml, item.id);
-  })).catch((err) => console.log('FAILED TO LOAD TEAMS: ' + err))
-  .then(() => writeToFile(gamestats, item.id));
+    boxscoreHelper.getHomePlayerStats(result)
+      .then((homePlayers) => fixNames(homePlayers).then((home) => gamestats.homePlayers = home))
+      .then(() => boxscoreHelper.getAwayPlayerStats(result).then((awayPlayers) => fixNames(awayPlayers).then((away) => gamestats.awayPlayers = away)))
+      .then(() => teamHelper.loadTeamStats(item.id).then((teamHtml) => teamHelper.buildTeamTotals(teamHtml, item.id).then((teamStats) => gamestats.teams = teamStats)))
+      .then(() => writeToFile(gamestats, item.id));
+  });
 }
+
+async function fixNames(players) {
+  var i;
+  for (i = 0; i < players.length; i++) {
+    var player = {};
+    player = players[i];
+    if (player.fullUrl) {
+      player.fullName = await playerHelper.getPlayerName(player.fullUrl);
+    }
+    players[i] = player;
+  }
+  return players;
+}
+
 
 function writeToFile(result, id) {
   const fs = require('fs');
