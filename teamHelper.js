@@ -9,7 +9,7 @@ async function loadTeamStats(gameId) {
   return teamStatsHtml;
 }
 
-function buildTeamTotals(teamHtml, id) {
+async function buildTeamTotals(teamHtml, id) {
   var teams = [];
   var homeTeam = {};
   var awayTeam = {};

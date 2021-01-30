@@ -1,8 +1,6 @@
 const client = require('axios');
 const cheerio = require('cheerio');
 const htmlHelper = require('./htmlHelper.js');
-const playerHelper = require('./playerHelper.js');
-
 
 async function loadBoxScore(gameId) {
   const { data } = await client.get('https://www.espn.com/nba/boxscore?gameId=' + gameId);
@@ -10,25 +8,25 @@ async function loadBoxScore(gameId) {
   return boxscoreHtml;
 }
 
-function getAwayPlayerStats(boxscoreHtml) {
+async function getAwayPlayerStats(boxscoreHtml) {
 
   var awayBoxScore = htmlHelper.getHtml(boxscoreHtml, 'div.gamepackage-away-wrap');
   var awayplayerStats = htmlHelper.getHtml(awayBoxScore, 'table.mod-data');
   var players = [];
-  players = getPlayerStats(awayplayerStats, 'away');
+  players = await getPlayerStats(awayplayerStats, 'away');
   return players;
 
 }
 
-function getHomePlayerStats(boxscoreHtml) {
+async function getHomePlayerStats(boxscoreHtml) {
   var homeBoxScore = htmlHelper.getHtml(boxscoreHtml, 'div.gamepackage-home-wrap');
   var homePlayerStats = htmlHelper.getHtml(homeBoxScore, 'table.mod-data');
   var players = [];
-  players = getPlayerStats(homePlayerStats, 'home');
+  players = await getPlayerStats(homePlayerStats, 'home');
   return players;
 }
 
-function getPlayerStats(playerStats, type) {
+async function getPlayerStats(playerStats, type) {
   const $ = cheerio.load(playerStats, {
     xmlMode: true
   });
