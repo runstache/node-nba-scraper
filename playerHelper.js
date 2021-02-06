@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 
 
 async function getPlayerName(playerUrl) {
-  var { data } = await client.get(playerUrl);
+  var { data } = await client.get(playerUrl, { timeout: 30000 });
 
   var nameHtml = htmlHelper.getHtml(data, 'h1.PlayerHeader__Name');
   nameHtml = '<div>' + nameHtml + '</div>';

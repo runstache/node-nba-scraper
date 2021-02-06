@@ -1,7 +1,7 @@
 const client = require('axios');
 
 async function loadScoreData(dateValue, callback) {
-  const { data } = await client.get('https://www.espn.com/nba/scoreboard/_/date/' + dateValue);
+  const { data } = await client.get('https://www.espn.com/nba/scoreboard/_/date/' + dateValue, { timeout: 30000 });
 
 
   const { JSDOM, VirtualConsole } = require('jsdom');

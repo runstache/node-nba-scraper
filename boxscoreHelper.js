@@ -10,20 +10,31 @@ async function loadBoxScore(gameId) {
 
 async function getAwayPlayerStats(boxscoreHtml) {
 
-  var awayBoxScore = htmlHelper.getHtml(boxscoreHtml, 'div.gamepackage-away-wrap');
-  var awayplayerStats = htmlHelper.getHtml(awayBoxScore, 'table.mod-data');
-  var players = [];
-  players = await getPlayerStats(awayplayerStats, 'away');
-  return players;
+  try {
+    var awayBoxScore = htmlHelper.getHtml(boxscoreHtml, 'div.gamepackage-away-wrap');
+    var awayplayerStats = htmlHelper.getHtml(awayBoxScore, 'table.mod-data');
+    var players = [];
+    players = await getPlayerStats(awayplayerStats, 'away');
+    return players;
+  } catch (err) {
+    console.log('Error Pulling Away Player Stats');
+    return [];
+  }
 
 }
 
 async function getHomePlayerStats(boxscoreHtml) {
-  var homeBoxScore = htmlHelper.getHtml(boxscoreHtml, 'div.gamepackage-home-wrap');
-  var homePlayerStats = htmlHelper.getHtml(homeBoxScore, 'table.mod-data');
-  var players = [];
-  players = await getPlayerStats(homePlayerStats, 'home');
-  return players;
+  try {
+    var homeBoxScore = htmlHelper.getHtml(boxscoreHtml, 'div.gamepackage-home-wrap');
+    var homePlayerStats = htmlHelper.getHtml(homeBoxScore, 'table.mod-data');
+    var players = [];
+    players = await getPlayerStats(homePlayerStats, 'home');
+    return players;
+  } catch (err) {
+    console.log('Error Pulling Home player Stats');
+    return [];
+  }
+
 }
 
 async function getPlayerStats(playerStats, type) {
@@ -53,32 +64,37 @@ async function getPlayerStats(playerStats, type) {
 }
 
 function buildPlayer(playerHtml) {
-  var stats = [];
-  var player = {};
-  var position = htmlHelper.getValue(playerHtml, 'span.position');
-  var name = htmlHelper.getValue(playerHtml, 'span.abbr');
-  var playerUrl = htmlHelper.getAttributeValue(playerHtml, 'a', 'href');
-  player.name = name;
-  player.position = position;
-  player.fullUrl = playerUrl;
-  player.stats = stats;
+  try {
+    var stats = [];
+    var player = {};
+    var position = htmlHelper.getValue(playerHtml, 'span.position');
+    var name = htmlHelper.getValue(playerHtml, 'span.abbr');
+    var playerUrl = htmlHelper.getAttributeValue(playerHtml, 'a', 'href');
+    player.name = name;
+    player.position = position;
+    player.fullUrl = playerUrl;
+    player.stats = stats;
 
-  const $ = cheerio.load(playerHtml, {
-    xmlMode: true
-  });
+    const $ = cheerio.load(playerHtml, {
+      xmlMode: true
+    });
 
-  $('td').each(function (idx, column) {
+    $('td').each(function (idx, column) {
 
-    var atttributeName = column.attribs.class;
-    if (atttributeName != 'name') {
-      var stat = {};
-      var columnHtml = $(this).html();
-      stat.name = atttributeName;
-      stat.value = columnHtml;
-      stats.push(stat);
-    }
-  });
-  return player;
+      var atttributeName = column.attribs.class;
+      if (atttributeName != 'name') {
+        var stat = {};
+        var columnHtml = $(this).html();
+        stat.name = atttributeName;
+        stat.value = columnHtml;
+        stats.push(stat);
+      }
+    });
+    return player;
+  } catch (err) {
+    console.log('Error Building Player');
+    return {};
+  }
 }
 
 exports.getHomePlayerStats = getHomePlayerStats;

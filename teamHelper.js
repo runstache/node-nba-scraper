@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 
 async function loadTeamStats(gameId) {
   console.log('GETTING TEAM STATS FOR ' + gameId);
-  var { data } = await client.get('https://www.espn.com/nba/matchup?gameId=' + gameId);
+  var { data } = await client.get('https://www.espn.com/nba/matchup?gameId=' + gameId, { timeout: 30000 });
   var teamStatsHtml = htmlHelper.getHtml(data, '#teamstats-wrap');
   return teamStatsHtml;
 }

@@ -6,7 +6,8 @@ const playerHelper = require('./playerHelper.js');
 const gameDate = process.argv[2];
 const outputDirectory = '/mnt/c/data/json/nba/';
 
-scoreboadHelper.loadScoreData('20210124', processScoreboard);
+// 20210124
+scoreboadHelper.loadScoreData(gameDate, processScoreboard);
 
 async function processScoreboard(scoreboard) {
   if (scoreboard) {
@@ -30,8 +31,8 @@ async function buildItem(item) {
       .then((homePlayers) => fixNames(homePlayers).then((home) => gamestats.homePlayers = home))
       .then(() => boxscoreHelper.getAwayPlayerStats(result).then((awayPlayers) => fixNames(awayPlayers).then((away) => gamestats.awayPlayers = away)))
       .then(() => teamHelper.loadTeamStats(item.id).then((teamHtml) => teamHelper.buildTeamTotals(teamHtml, item.id).then((teamStats) => gamestats.teams = teamStats)))
-      .then(() => writeToFile(gamestats, item.id));
-  });
+      //.then(() => writeToFile(gamestats, item.id));
+  }).then(() => writeToFile(gamestats, item.id))
 }
 
 async function fixNames(players) {

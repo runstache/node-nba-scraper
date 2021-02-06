@@ -7,7 +7,7 @@ const fs = require('fs');
 var injuryUrl = 'https://www.espn.com/nba/injuries';
 const outputDirectory = '/mnt/c/data/json/nba/';
 
-client.get(injuryUrl).then(({data}) => {
+client.get(injuryUrl, { timeout: 30000 }).then(({data}) => {
   
   var injuryContainer = htmlHelper.getHtml(data, 'div.page-container.cf');
   var injuryCard = htmlHelper.getHtml(injuryContainer, 'div.Card__Content');
