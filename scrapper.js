@@ -1,10 +1,8 @@
 const client = require('axios');
-const helper = require('./boxscoreHelper.js');
 
 
-/*
 async function loadScoreData(callback) {
-  const { data } = await client.get('https://www.espn.com/nba/player/_/id/3988/danny-green');
+  const { data } = await client.get('https://www.espn.com/nba/team/roster/_/name/bos');
   callback(data);
 }
 
@@ -12,7 +10,7 @@ async function loadScoreData(callback) {
 
 loadScoreData(function(result) {
   const fs = require('fs');
-  var filename = 'player.html';
+  var filename = 'roster.html';
   console.log('WRITING TO FILE: ' + filename);
   fs.writeFile(filename, result, function(err) {
     if (err) {
@@ -20,12 +18,12 @@ loadScoreData(function(result) {
     }
   });
 });
-*/
 
-const playerHelper = require('./playerHelper.js');
+
+//const playerHelper = require('./playerHelper.js');
 
 //playerHelper.getPlayerName('https://www.espn.com/nba/player/_/id/3988/danny-green').then((result) => console.log(result));
-
+/*
 helper.loadBoxScore('401267448').then((result) => {
   var stats = [];
   stats = helper.getAwayPlayerStats(result);
@@ -46,4 +44,4 @@ async function setFullName(players) {
   }
   return newStats;
 }
-
+*/

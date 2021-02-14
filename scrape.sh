@@ -1,5 +1,5 @@
-input_start_date=2021-2-6
-input_end_date=2021-7-31
+input_start_date=2021-2-5
+input_end_date=2021-2-10
 
 startDate=$(date -I -d "$input_start_date") || exit -1
 endDate=$(date -I -d "$input_end_date") || exit -1

@@ -5,7 +5,7 @@ const fs = require('fs');
   
 
 var injuryUrl = 'https://www.espn.com/nba/injuries';
-const outputDirectory = '/mnt/c/data/json/nba/';
+const outputDirectory = '/mnt/c/data/json/nba/injuries/';
 
 client.get(injuryUrl, { timeout: 30000 }).then(({data}) => {
   
