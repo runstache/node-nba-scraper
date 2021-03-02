@@ -1,0 +1,24 @@
+{
+  "name": "nba-scraper",
+  "version": "1.0.0",
+  "description": "Nba Stats Scraper",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/runstache/node-nba-scraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/runstache/node-nba-scraper/issues"
+  },
+  "homepage": "https://github.com/runstache/node-nba-scraper#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "^1.0.0-rc.5",
+    "jsdom": "^16.4.0"
+  }
+}
